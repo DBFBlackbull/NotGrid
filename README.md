@@ -10,7 +10,7 @@ This makes the /ngcast command a much more useful one-stop option for casting.
 Note: 
 To get the same effect as **#showtooltip** on your WoW 1.12 macros, add the following line on the end of the macro:
 ```
-if 1==2 then CastSpellByName("SPELL_NAME"); end
+if nil then CastSpellByName("SPELL_NAME") end
 ```
 
 The UI will see the use of `CastSpellByName` and add the tool tip, *but* we don't actually want to call it, so it's wrapped in an if statement that will always be false. If we don't wrap it, it will work, but it will make an annoying error noise every time because you're effectively trying to run two spell casts at the same time. 
