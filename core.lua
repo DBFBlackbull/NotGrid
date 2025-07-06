@@ -386,6 +386,10 @@ function NotGrid:CastHandle(spell, unitid)
 		end
 		return
 	end
+	if unitid == "player" then
+		return CastSpellByName(spell, 1)
+	end
+
 	local LastTarget = UnitName("target") --used as boolean before using targetlasttarget
 	ClearTarget()
 	CastSpellByName(spell)
