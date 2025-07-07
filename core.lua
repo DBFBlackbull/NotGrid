@@ -348,6 +348,20 @@ end
 -- Mousover Mimick --
 ---------------------
 
+local ignoreCreatureType = {
+	["Totem"] = true, -- English
+	["Totem"] = true, -- German
+	["Tótem"] = true, -- Spanish
+	["Tótem"] = true, -- Spanish (Mexico)
+	["Totem"] = true, -- French
+	["Totem"] = true, -- Italian
+	["Totem"] = true, -- Portuguese
+	["Тотем"] = true, -- Russian
+	["토템"] = true, -- Korean
+	["图腾"] = true, -- Chinese (Simplified)
+	["圖騰"] = true, -- Chinese (Traditional)
+}
+
 SLASH_NOTGRIDCAST1 = "/ngcast"
 function SlashCmdList.NOTGRIDCAST(spell, editbox)
 	local unitid = GetMouseFocus().unit
@@ -365,7 +379,7 @@ function SlashCmdList.NOTGRIDCAST(spell, editbox)
 	-- LOLO: Add the following. Casting macro now checks:
 	--       mouseover -> target (friendly) -> player
 	if unitid == nil then
-		if UnitIsFriend("player", "target") then
+		if UnitIsFriend("player", "target") and not ignoreCreatureType[UnitCreatureType("target")] then
 			unitid = "target"
 		else 
 			unitid = "player"
