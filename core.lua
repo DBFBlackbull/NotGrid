@@ -522,6 +522,10 @@ end
 
 --have to handle the blizzframes seperately because rosterlib only fires if a member changed, wheras PARTY_MEMBERS_CHANGED fires for loot and other reasons as well
 function NotGrid:BlizzFrameHandler() -- called by PLAYER_ENTERING_WORLD,PARTY_MEMBER_CHANGED,RAID_ROSTER_UPDATE,UNIT_PET,and NotGridOptionChange()
+    if ( HIDE_PARTY_INTERFACE == "1" and GetNumRaidMembers() > 0) then
+        return
+    end
+
     if self.o.showblizzframes then
         for i=1,GetNumPartyMembers() do -- this isn't perfect because, for example, if partycount were at 0 it just wouldn't run and wouldn't hide any remaining frames. But blizz's code handles hiding it natively on member leave so I won't worry about it.
             getglobal("PartyMemberFrame"..i):Show();
