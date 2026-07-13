@@ -94,6 +94,20 @@ L:RegisterTranslations("enUS", function() return {
 ["icon_tooltip"] = "Toggle to invert icon display.",
 
 
+-------------------
+-- Creature Type --
+-------------------
+
+["Totem"] = "Totem",
+
+------------
+-- Spells --
+------------
+
+["Holy Shock"] = "Holy Shock",
+["Dispel Magic"] = "Dispel Magic",
+["Devour Magic"] = "Devour Magic"
+
 } end)
 
 L:RegisterTranslations("ruRU", function() return {

@@ -349,18 +349,19 @@ end
 ---------------------
 
 local ignoreCreatureType = {
-	["Totem"] = true, -- English
-	["Totem"] = true, -- German
-	["Tótem"] = true, -- Spanish
-	["Tótem"] = true, -- Spanish (Mexico)
-	["Totem"] = true, -- French
-	["Totem"] = true, -- Italian
-	["Totem"] = true, -- Portuguese
-	["Тотем"] = true, -- Russian
-	["토템"] = true, -- Korean
-	["图腾"] = true, -- Chinese (Simplified)
-	["圖騰"] = true, -- Chinese (Traditional)
+	[L["Totem"]] = true -- English
 }
+
+local dualPurposeSpells = {
+	[L["Holy Shock"]] = true,
+	[L["Dispel Magic"]] = true,
+	[L["Devour Magic"]] = true
+}
+
+local function friendlyAndEnemySpell(spell)
+	local _, _, spellWithoutRank = string.find(spell, "(.*)%(")
+	return dualPurposeSpells[spellWithoutRank] or dualPurposeSpells[spell]
+end
 
 SLASH_NOTGRIDCAST1 = "/ngcast"
 function SlashCmdList.NOTGRIDCAST(spell, editbox)
@@ -379,9 +380,13 @@ function SlashCmdList.NOTGRIDCAST(spell, editbox)
 	-- LOLO: Add the following. Casting macro now checks:
 	--       mouseover -> target (friendly) -> player
 	if unitid == nil then
-		if UnitIsFriend("player", "target") and not ignoreCreatureType[UnitCreatureType("target")] then
+		if UnitIsDead("target") then
+			unitid = "player"
+		elseif UnitIsFriend("player", "target") and not ignoreCreatureType[UnitCreatureType("target")] then
 			unitid = "target"
-		else 
+		elseif UnitCanAttack("player", "target") and friendlyAndEnemySpell(spell) then
+			unitid = "target"
+		else
 			unitid = "player"
 		end
 	end
